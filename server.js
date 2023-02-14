@@ -18,32 +18,40 @@ app.listen(PORT, (error) => {
 })
 
 app.get('/', (req, res) => {
-    res.render(createPath('index'));
+    const title = 'Home';
+    res.render(createPath('index'), {title});
 })
 
 app.get('/contacts', (req, res) => {
-    res.render(createPath('contacts'));
+    const title = 'Contacts';
+    const contacts = [
+        {name: 'Linkedin', link: "https://www.linkedin.com/in/aliaksei-malinouski-a44778249/"},
+        {name: 'GitHub', link: "https://github.com/AliakseiMalinouski"}
+    ]
+    res.render(createPath('contacts'), {contacts, title});
 })
 
 app.get('/posts/:id', (req, res) => {
-    res.render(createPath('post'));
+    const title = 'Post';
+    res.render(createPath('post'), {title});
 })
 
 app.get('/posts', (req, res) => {
-    res.render(createPath('posts'));
+    const title = 'Posts';
+    res.render(createPath('posts'), {title});
 })
 
 app.get('/add-post', (req, res) => {
-    res.render(createPath('add-post'));
+    const title = 'Add Post';
+    res.render(createPath('add-post'), {title});
 })
 
-app.get('/about-us', (req, res) => {
-    res.render('contacts');
-})
+
 
 app.use((req, res) => {
+    const title = 'Error page';
     res
     .status(404)
-    .render(createPath('error'));
+    .render(createPath('error'), {title});
 });
 
