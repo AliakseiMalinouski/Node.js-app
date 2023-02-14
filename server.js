@@ -1,11 +1,46 @@
-const http = require('http');
 
-const server = http.createServer((req, res) => {
-    console.log('req server')
-    res.write('hello')
-    res.end();
+const express = require('express');
+const path = require('path');
+
+const PORT = 3000;
+
+const createPath = (page) => path.resolve(__dirname, 'views', `${page}.html`)
+
+const app = express();
+
+// app.set('view engine', 'ejs');
+
+app.listen(PORT, (error) => {
+    error ? console.log(error) : console.log(`listening port ${3000}`)
 })
 
-server.listen(3000, 'localhost', () => {
-    console.log('listening port 3000')
+app.get('/', (req, res) => {
+    res.sendFile(createPath('index'));
 })
+
+app.get('/contacts', (req, res) => {
+    res.sendFile(createPath('contacts'));
+})
+
+app.get('/posts/:id', (req, res) => {
+    res.sendFile(createPath('post'));
+})
+
+app.get('/posts', (req, res) => {
+    res.sendFile(createPath('posts'));
+})
+
+app.get('/add-post', (req, res) => {
+    res.sendFile(createPath('add-post'));
+})
+
+app.get('/about-us', (req, res) => {
+    res.redirect('contacts');
+})
+
+app.use((req, res) => {
+    res
+    .status(404)
+    .sendFile(createPath('error'));
+});
+
