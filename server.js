@@ -2,45 +2,48 @@
 const express = require('express');
 const path = require('path');
 
-const PORT = 3000;
-
-const createPath = (page) => path.resolve(__dirname, 'views', `${page}.html`)
-
 const app = express();
 
-// app.set('view engine', 'ejs');
+app.set('view engine', 'ejs');
+
+const PORT = 3000;
+
+const createPath = (page) => path.resolve(__dirname, 'ejs-views', `${page}.ejs`)
+
+
+
 
 app.listen(PORT, (error) => {
     error ? console.log(error) : console.log(`listening port ${3000}`)
 })
 
 app.get('/', (req, res) => {
-    res.sendFile(createPath('index'));
+    res.render(createPath('index'));
 })
 
 app.get('/contacts', (req, res) => {
-    res.sendFile(createPath('contacts'));
+    res.render(createPath('contacts'));
 })
 
 app.get('/posts/:id', (req, res) => {
-    res.sendFile(createPath('post'));
+    res.render(createPath('post'));
 })
 
 app.get('/posts', (req, res) => {
-    res.sendFile(createPath('posts'));
+    res.render(createPath('posts'));
 })
 
 app.get('/add-post', (req, res) => {
-    res.sendFile(createPath('add-post'));
+    res.render(createPath('add-post'));
 })
 
 app.get('/about-us', (req, res) => {
-    res.redirect('contacts');
+    res.render('contacts');
 })
 
 app.use((req, res) => {
     res
     .status(404)
-    .sendFile(createPath('error'));
+    .render(createPath('error'));
 });
 
