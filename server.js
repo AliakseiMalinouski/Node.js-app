@@ -1,21 +1,33 @@
 
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 const app = express();
 
 app.set('view engine', 'ejs');
 
 const PORT = 3000;
+const db = "mongodb+srv://aleksymalinowski21:aleksymalinowski@cluster0.dp5vlaz.mongodb.net/First-Example?retryWrites=true&w=majority";
 
 const createPath = (page) => path.resolve(__dirname, 'ejs-views', `${page}.ejs`)
 
-
+mongoose
+    .connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(res => console.log('Connected to DB'))
+    .catch(error => console.log(error))
 
 
 app.listen(PORT, (error) => {
     error ? console.log(error) : console.log(`listening port ${3000}`)
 })
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
+
+app.use(express.urlencoded({extended: false}))
+
+// app.use(express.static('styles')); // чтобы позволить браузеры читать файл со стилями
 
 app.get('/', (req, res) => {
     const title = 'Home';
@@ -33,12 +45,37 @@ app.get('/contacts', (req, res) => {
 
 app.get('/posts/:id', (req, res) => {
     const title = 'Post';
-    res.render(createPath('post'), {title});
+    const post = {
+        id: '1',
+        text: 'Some large text for test',
+        title: 'Post title',
+        date: '99.99.9999',
+        author: 'Aleksy'
+    }
+    res.render(createPath('post'), {title, post});
 })
 
 app.get('/posts', (req, res) => {
     const title = 'Posts';
-    res.render(createPath('posts'), {title});
+    const posts = [
+        {
+            id: '1',
+            text: 'Some large text for test',
+            title: 'Post title',
+            date: '99.99.9999',
+            author: 'Aleksy'
+        }
+    ]
+    res.render(createPath('posts'), {title, posts});
+})
+app.post('/add-post', (req, res) => {
+    const {title, author, text} = req.body;
+    const post = {
+        title, 
+        author,
+        text
+    }
+    res.render(createPath('post'), {post, title})
 })
 
 app.get('/add-post', (req, res) => {

@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-</head>
+    <%- include ('./partials/head.ejs') %>
 <body>
     <%- include('./partials/nav.ejs') %>
-    <div>Posts page</div>
+    <ul>
+        <% if (posts.length) { %>
+            <% posts.forEach(({title, author, text, date, id}) => { %>
+                <li>
+                    <a href='/posts/<%= id %>'><%= title %></a>
+                </li>
+                <h3><%= author %></h3>
+                <h3><%= date || "No date" %></h3>
+                <p><%= text %></p>
+           <% }) %>
+           <% } %>
+    </ul>
 </body>
 </html>
