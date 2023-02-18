@@ -8,6 +8,7 @@
         <h2> <span><%= post.title %></span></h2>
         <h4> <span><%= post.text %></span></h4>
         <button data-id="<%= post.id %>">Delete</button>
+        <a href="/edit/<%= post.id %>">Edit</a>
     </div>
     <script>
         document.addEventListener('click', (e) => {
