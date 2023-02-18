@@ -7,6 +7,17 @@
         <span><%= post.createdAt.toLocaleDateString() %></span>
         <h2> <span><%= post.title %></span></h2>
         <h4> <span><%= post.text %></span></h4>
+        <button data-id="<%= post.id %>">Delete</button>
     </div>
+    <script>
+        document.addEventListener('click', (e) => {
+            const id = e.target?.dataset.id || null;
+            if(id) {
+                fetch(`/posts/${id}`, {
+                    method: 'DELETE'
+                }).then(() => window.location.href = '/posts');
+            }
+        })
+    </script>
 </body>
 </html>

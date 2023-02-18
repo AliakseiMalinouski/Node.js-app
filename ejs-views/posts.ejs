@@ -6,14 +6,25 @@
     <ul>
         <% if (posts.length) { %>
             <% posts.forEach(({title, author, text, date, id, createdAt}) => { %>
-                <li>
+                <li style="margin: 15px">
                     <a href='/posts/<%= id %>'><%= title %></a>
+                    <h3><%= author %></h3>
+                    <h3><%= createdAt.toLocaleDateString() %></h3>
+                    <p><%= text %></p>
+                    <button data-id="<%= id %>">Delete</button>
                 </li>
-                <h3><%= author %></h3>
-                <h3><%= createdAt.toLocaleDateString() %></h3>
-                <p><%= text %></p>
            <% }) %>
            <% } %>
     </ul>
+    <script>
+        document.addEventListener('click', (e) => {
+            const id = e.target?.dataset.id || null;
+            if(id) {
+                fetch(`/posts/${id}`, {
+                    method: 'DELETE'
+                }).then(() => window.location.reload());
+            }
+        })
+    </script>
 </body>
 </html>
