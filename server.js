@@ -32,7 +32,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 
 app.use(express.urlencoded({extended: false}))
 
-// app.use(express.static('styles')); // чтобы позволить браузеры читать файл со стилями
+app.use(express.static('styles')); // чтобы позволить браузеру читать файл со стилями
 
 app.use(methodOverride('_method'));
 
