@@ -5,12 +5,12 @@
     <%- include('./partials/nav.ejs') %>
     <ul>
         <% if (posts.length) { %>
-            <% posts.forEach(({title, author, text, date, id}) => { %>
+            <% posts.forEach(({title, author, text, date, id, createdAt}) => { %>
                 <li>
                     <a href='/posts/<%= id %>'><%= title %></a>
                 </li>
                 <h3><%= author %></h3>
-                <h3><%= date || "No date" %></h3>
+                <h3><%= createdAt.toLocaleDateString() %></h3>
                 <p><%= text %></p>
            <% }) %>
            <% } %>

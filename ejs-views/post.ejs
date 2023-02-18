@@ -4,7 +4,7 @@
 <body>
     <%- include('./partials/nav.ejs') %>
     <div>
-        <span><%= post.date %></span>
+        <span><%= post.createdAt.toLocaleDateString() %></span>
         <h2> <span><%= post.title %></span></h2>
         <h4> <span><%= post.text %></span></h4>
     </div>
