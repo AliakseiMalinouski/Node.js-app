@@ -3,15 +3,18 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const Post = require('./models/post');
 
 const app = express();
 
 app.set('view engine', 'ejs');
 
 const PORT = 3000;
-const db = "mongodb+srv://aleksymalinowski21:aleksymalinowski@cluster0.dp5vlaz.mongodb.net/First-Example?retryWrites=true&w=majority";
+const db = "mongodb+srv://aleksymalinowski21:nodepass1234@cluster0.dp5vlaz.mongodb.net/First-Example?retryWrites=true&w=majority";
 
 const createPath = (page) => path.resolve(__dirname, 'ejs-views', `${page}.ejs`)
+
+mongoose.set("strictQuery", false);
 
 mongoose
     .connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -70,12 +73,14 @@ app.get('/posts', (req, res) => {
 })
 app.post('/add-post', (req, res) => {
     const {title, author, text} = req.body;
-    const post = {
-        title, 
-        author,
-        text
-    }
-    res.render(createPath('post'), {post, title})
+    const post = new Post({title, author, text});
+    post
+        .save()
+        .then(result => res.send(result))
+        .catch(error => {
+            console.log(error)
+            res.render(createPath('error'), {title: 'Error'})
+        });
 })
 
 app.get('/add-post', (req, res) => {
